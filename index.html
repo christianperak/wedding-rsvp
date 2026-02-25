@@ -24,22 +24,22 @@
         }
         async function checkAuth() {
             const stored = sessionStorage.getItem("rsvp_auth");
-            if (stored === HASH) return;
+            if (stored === HASH) { document.body.style.display = ""; return; }
             let attempts = 0;
             while (attempts < 5) {
                 const pw = prompt(attempts === 0 ? "Enter password:" : "Incorrect. Try again:");
-                if (pw === null) { document.body.innerHTML = ""; return; }
+                if (pw === null) { document.body.innerHTML = ""; document.body.style.display = ""; return; }
                 const h = await sha256(pw);
-                if (h === HASH) { sessionStorage.setItem("rsvp_auth", HASH); return; }
+                if (h === HASH) { sessionStorage.setItem("rsvp_auth", HASH); document.body.style.display = ""; return; }
                 attempts++;
             }
             document.body.innerHTML = "<p style='font-family:sans-serif;padding:40px'>Too many attempts.</p>";
+            document.body.style.display = "";
         }
-        document.addEventListener("DOMContentLoaded", () => { document.body.style.display = "none"; });
-        checkAuth().then(() => { const b = document.body; if (b) b.style.display = ""; });
+        window.addEventListener("DOMContentLoaded", checkAuth);
     })();
 </script>
-<body>
+<body style="display:none">
     <h1>🤍 Wedding RSVP — Party Index</h1>
     <p class="stats">111 parties · 264 total guests</p>
     <table>
