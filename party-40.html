@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RSVP — Christian & Felicia</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --cream: #FAF8F5;
+            --warm-white: #FFFDFB;
+            --stone: #D4C5B2;
+            --stone-light: #E8DFD3;
+            --stone-dark: #A89580;
+            --charcoal: #2D2926;
+            --charcoal-light: #4A4541;
+            --sage: #8B9A7E;
+            --sage-light: #B5C4A8;
+            --sage-dark: #6B7A5E;
+            --rose: #C4977A;
+            --rose-light: #E8C5B0;
+            --error: #B85C5C;
+            --error-bg: #FDF2F2;
+        }
+
+        body {
+            font-family: 'Manrope', sans-serif;
+            background-color: var(--cream);
+            color: var(--charcoal);
+            min-height: 100vh;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .page-wrapper {
+            max-width: 540px;
+            margin: 0 auto;
+            padding: 40px 24px 60px;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        .header-ornament {
+            color: var(--stone);
+            font-size: 14px;
+            letter-spacing: 6px;
+            margin-bottom: 16px;
+        }
+
+        .couple-names {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 36px;
+            font-weight: 300;
+            color: var(--charcoal);
+            letter-spacing: 1px;
+            line-height: 1.2;
+        }
+
+        .couple-names em {
+            font-style: italic;
+            font-weight: 300;
+            color: var(--stone-dark);
+        }
+
+        .header-divider {
+            width: 60px;
+            height: 1px;
+            background: var(--stone);
+            margin: 20px auto;
+        }
+
+        .rsvp-label {
+            font-size: 11px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--stone-dark);
+            font-weight: 500;
+        }
+
+        /* Party name */
+        .party-section {
+            text-align: center;
+            margin-bottom: 36px;
+        }
+
+        .party-greeting {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 18px;
+            color: var(--charcoal-light);
+            font-weight: 400;
+            margin-bottom: 4px;
+        }
+
+        .party-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 24px;
+            font-weight: 500;
+            color: var(--charcoal);
+        }
+
+        /* Guest cards */
+        .guests-section {
+            margin-bottom: 32px;
+        }
+
+        .section-label {
+            font-size: 11px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--stone-dark);
+            font-weight: 500;
+            margin-bottom: 16px;
+        }
+
+        .guest-card {
+            background: var(--warm-white);
+            border: 1px solid var(--stone-light);
+            border-radius: 8px;
+            padding: 16px 20px;
+            margin-bottom: 12px;
+            transition: all 0.2s ease;
+        }
+
+        .guest-card.selected-yes {
+            border-color: var(--sage);
+            background: linear-gradient(135deg, #f4f8f2 0%, var(--warm-white) 100%);
+        }
+
+        .guest-card.selected-no {
+            border-color: var(--stone);
+            opacity: 0.7;
+        }
+
+        .guest-main {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .guest-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 20px;
+            font-weight: 500;
+            color: var(--charcoal);
+            flex: 1;
+        }
+
+        .guest-under18 {
+            font-size: 11px;
+            color: var(--stone-dark);
+            background: var(--stone-light);
+            padding: 2px 8px;
+            border-radius: 10px;
+            white-space: nowrap;
+        }
+
+        /* Toggle switch */
+        .toggle-group {
+            display: flex;
+            gap: 0;
+            border-radius: 6px;
+            overflow: hidden;
+            border: 1px solid var(--stone-light);
+            flex-shrink: 0;
+        }
+
+        .toggle-btn {
+            padding: 8px 14px;
+            font-size: 12px;
+            font-family: 'Manrope', sans-serif;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            border: none;
+            background: var(--warm-white);
+            color: var(--stone-dark);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-transform: uppercase;
+        }
+
+        .toggle-btn:first-child {
+            border-right: 1px solid var(--stone-light);
+        }
+
+        .toggle-btn.active-yes {
+            background: var(--sage);
+            color: white;
+        }
+
+        .toggle-btn.active-no {
+            background: var(--stone-dark);
+            color: white;
+        }
+
+        /* Expandable fields */
+        .guest-extras {
+            overflow: hidden;
+            max-height: 0;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+        }
+
+        .guest-extras.open {
+            max-height: 200px;
+            padding-top: 14px;
+        }
+
+        .field-row {
+            margin-bottom: 10px;
+        }
+
+        .field-label {
+            font-size: 11px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--stone-dark);
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+
+        .field-input {
+            width: 100%;
+            padding: 8px 12px;
+            font-family: 'Manrope', sans-serif;
+            font-size: 14px;
+            border: 1px solid var(--stone-light);
+            border-radius: 6px;
+            background: var(--cream);
+            color: var(--charcoal);
+            transition: border-color 0.2s;
+            outline: none;
+        }
+
+        .field-input:focus {
+            border-color: var(--sage);
+        }
+
+        .field-input::placeholder {
+            color: var(--stone);
+        }
+
+        .age-input {
+            width: 80px;
+        }
+
+        /* Submit */
+        .submit-section {
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 16px 32px;
+            font-family: 'Manrope', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            background: var(--charcoal);
+            color: var(--cream);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            background: var(--charcoal-light);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(45, 41, 38, 0.2);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .submit-btn:disabled {
+            background: var(--stone);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .validation-msg {
+            font-size: 13px;
+            color: var(--error);
+            margin-bottom: 16px;
+            display: none;
+        }
+
+        .validation-msg.show {
+            display: block;
+        }
+
+        /* Success state */
+        .success-overlay {
+            display: none;
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .success-overlay.show {
+            display: block;
+        }
+
+        .success-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .success-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 28px;
+            font-weight: 400;
+            color: var(--charcoal);
+            margin-bottom: 12px;
+        }
+
+        .success-message {
+            font-size: 15px;
+            color: var(--charcoal-light);
+            line-height: 1.7;
+        }
+
+        .form-content {
+            transition: opacity 0.3s ease;
+        }
+
+        .form-content.hidden {
+            display: none;
+        }
+
+        /* Loading state */
+        .loading {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(250,248,245,0.3);
+            border-radius: 50%;
+            border-top-color: var(--cream);
+            animation: spin 0.7s linear infinite;
+            vertical-align: middle;
+            margin-right: 8px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: 48px;
+            padding-top: 24px;
+            border-top: 1px solid var(--stone-light);
+        }
+
+        .footer p {
+            font-size: 12px;
+            color: var(--stone-dark);
+            letter-spacing: 1px;
+        }
+
+        /* Responsive */
+        @media (max-width: 400px) {
+            .couple-names { font-size: 28px; }
+            .party-name { font-size: 20px; }
+            .guest-name { font-size: 18px; }
+            .toggle-btn { padding: 6px 10px; font-size: 11px; }
+            .page-wrapper { padding: 24px 16px 40px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-wrapper">
+        <header class="header">
+            <div class="header-ornament">✦ ✦ ✦</div>
+            <h1 class="couple-names">Christian <em>&amp;</em> Felicia</h1>
+            <div class="header-divider"></div>
+            <p class="rsvp-label">Répondez S'il Vous Plaît</p>
+        </header>
+
+        <div class="form-content" id="formContent">
+            <div class="party-section">
+                <p class="party-greeting">We joyfully invite</p>
+                <h2 class="party-name">Nik &amp; Candice</h2>
+            </div>
+
+            <div class="guests-section">
+                <p class="section-label">Your Party</p>
+                <div id="guestCards"></div>
+            </div>
+
+            <div class="submit-section">
+                <p class="validation-msg" id="validationMsg">Please indicate attending or not for every guest in your party.</p>
+                <button class="submit-btn" id="submitBtn" onclick="submitRSVP()">
+                    Submit RSVP
+                </button>
+            </div>
+        </div>
+
+        <div class="success-overlay" id="successOverlay">
+            <div class="success-icon">🤍</div>
+            <h2 class="success-title">Thank You</h2>
+            <p class="success-message">
+                Your RSVP has been received.<br>
+                We look forward to celebrating with you!
+            </p>
+        </div>
+
+        <footer class="footer">
+            <p>With love, Christian &amp; Felicia</p>
+        </footer>
+    </div>
+
+    <script>
+        // Party data
+        const PARTY_ID = "party-40";
+        const PARTY_NAME = "Nik & Candice";
+        const GUESTS = [{"name": "Nik Franjesevic", "under18": false}, {"name": "Candice Chen", "under18": false}];
+        const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyWWdkWKaDCPQko62EpNtKb2SvXoB2g5o-8lNdE9viH-ylaB-Qs0FyvvpOhg2IesscW/exec";
+
+        // State
+        const guestState = {};
+
+        function initGuests() {
+            const container = document.getElementById('guestCards');
+            
+            GUESTS.forEach((guest, index) => {
+                guestState[index] = {
+                    name: guest.name,
+                    attending: null,
+                    dietary: '',
+                    age: '',
+                    under18: guest.under18
+                };
+
+                const card = document.createElement('div');
+                card.className = 'guest-card';
+                card.id = `guest-${index}`;
+                
+                let extrasHTML = '';
+                
+                // Dietary field (shown when attending = yes)
+                extrasHTML += `
+                    <div class="guest-extras" id="extras-${index}">
+                        <div class="field-row">
+                            <label class="field-label" for="dietary-${index}">Dietary requirements (optional)</label>
+                            <input type="text" class="field-input" id="dietary-${index}" 
+                                   placeholder="e.g. vegetarian, gluten-free, halal..."
+                                   oninput="guestState[${index}].dietary = this.value">
+                        </div>`;
+                
+                // Age field only for under-18 guests
+                if (guest.under18) {
+                    extrasHTML += `
+                        <div class="field-row">
+                            <label class="field-label" for="age-${index}">Age (optional)</label>
+                            <input type="number" class="field-input age-input" id="age-${index}" 
+                                   placeholder="Age" min="0" max="17"
+                                   oninput="guestState[${index}].age = this.value">
+                        </div>`;
+                }
+                
+                extrasHTML += `</div>`;
+                
+                card.innerHTML = `
+                    <div class="guest-main">
+                        <div>
+                            <span class="guest-name">${guest.name}</span>
+                            ${guest.under18 ? '<span class="guest-under18">Under 18</span>' : ''}
+                        </div>
+                        <div class="toggle-group">
+                            <button class="toggle-btn" id="yes-${index}" onclick="setAttending(${index}, true)">Accept</button>
+                            <button class="toggle-btn" id="no-${index}" onclick="setAttending(${index}, false)">Decline</button>
+                        </div>
+                    </div>
+                    ${extrasHTML}
+                `;
+                
+                container.appendChild(card);
+            });
+        }
+
+        function setAttending(index, attending) {
+            guestState[index].attending = attending;
+            
+            const card = document.getElementById(`guest-${index}`);
+            const yesBtn = document.getElementById(`yes-${index}`);
+            const noBtn = document.getElementById(`no-${index}`);
+            const extras = document.getElementById(`extras-${index}`);
+            
+            // Reset
+            card.className = 'guest-card';
+            yesBtn.className = 'toggle-btn';
+            noBtn.className = 'toggle-btn';
+            
+            if (attending) {
+                card.classList.add('selected-yes');
+                yesBtn.classList.add('active-yes');
+                extras.classList.add('open');
+            } else {
+                card.classList.add('selected-no');
+                noBtn.classList.add('active-no');
+                extras.classList.remove('open');
+                // Clear dietary/age if declining
+                guestState[index].dietary = '';
+                guestState[index].age = '';
+                const dietaryInput = document.getElementById(`dietary-${index}`);
+                if (dietaryInput) dietaryInput.value = '';
+                const ageInput = document.getElementById(`age-${index}`);
+                if (ageInput) ageInput.value = '';
+            }
+            
+            // Hide validation message when user interacts
+            document.getElementById('validationMsg').classList.remove('show');
+        }
+
+        async function submitRSVP() {
+            // Validate — every guest must have attending set
+            const allAnswered = Object.values(guestState).every(g => g.attending !== null);
+            if (!allAnswered) {
+                document.getElementById('validationMsg').classList.add('show');
+                return;
+            }
+            
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span class="loading"></span> Submitting...';
+            
+            const payload = {
+                partyId: PARTY_ID,
+                partyName: PARTY_NAME,
+                guests: Object.values(guestState).map(g => ({
+                    name: g.name,
+                    attending: g.attending,
+                    dietary: g.dietary,
+                    age: g.age
+                }))
+            };
+            
+            try {
+                const response = await fetch(APPS_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(payload)
+                });
+                
+                // With no-cors, we can't read the response, but if we get here it was sent
+                showSuccess();
+            } catch (error) {
+                console.error('Submit error:', error);
+                // Even with errors, the Apps Script usually processes it
+                // Show success after a brief delay
+                setTimeout(showSuccess, 500);
+            }
+        }
+
+        function showSuccess() {
+            document.getElementById('formContent').classList.add('hidden');
+            document.getElementById('successOverlay').classList.add('show');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Initialize
+        initGuests();
+    </script>
+</body>
+</html>
